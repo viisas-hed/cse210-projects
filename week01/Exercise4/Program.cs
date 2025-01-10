@@ -66,7 +66,7 @@ class Program
         }
         else
         {
-            Console.WriteLine("There is no positive numbers in the list");
+            Console.WriteLine("There is no positive numbers in the list\n");
         }                
     }
 }
