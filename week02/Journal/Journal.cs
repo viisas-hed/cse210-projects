@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 public class Journal 
 {
     public List<Entry> _entries = new List<Entry>() ;
@@ -28,7 +30,7 @@ public class Journal
     }
 
     public void Save()
-    {
+    {     
         Console.WriteLine("Enter file path (don't forget to add the extension, like '.csv' or '.txt'): ");
         _filePath = Console.ReadLine();
 
@@ -62,8 +64,18 @@ public class Journal
                 foreach (Entry entry in _entries)
                 {
                     string escapedPrompt = entry._prompt.Replace("\"", "\"\"");
+                    if (escapedPrompt.Contains(",") || escapedPrompt.Contains("\n") || escapedPrompt.Contains("\""))
+                    {
+                        escapedPrompt = $"\"{escapedPrompt}\"";
+                    }
+
                     string escapedContent = entry._content.Replace("\"", "\"\"");
-                    writer.WriteLine($"{entry._date.ToString("yyyy-MM-dd")}, \"{escapedPrompt}\", \"{escapedContent}\"");
+                    if (escapedContent.Contains(",") || escapedContent.Contains("\n") || escapedContent.Contains("\""))
+                    {
+                        escapedContent = $"\"{escapedContent}\"";
+                    }
+                    
+                    writer.WriteLine($"{entry._date:yyyy-MM-dd},{escapedPrompt},{escapedContent}");
                 }
             }
             _entries.Clear();

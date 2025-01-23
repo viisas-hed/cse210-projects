@@ -18,25 +18,38 @@ class Program
                         "\n4. Save" +
                         "\n5. Quit");
             choice = Console.ReadLine();
+
             if (choice == "1") //Write
             {
                 string prompt = promptGenerator.GetRandomPrompt();
                 Console.WriteLine("Prompt: " + prompt);
+
                 Console.Write("Write your entry: ");
                 string entryContent = Console.ReadLine();
 
                 Entry newEntry = new Entry();
-                newEntry._content = entryContent;
-                newEntry._date = DateTime.Now.Date;
-                newEntry._prompt = prompt;
+                newEntry.CreateNewEntry(DateTime.Now.Date, prompt, entryContent);
 
                 Console.Write("Do you want to save this? (y/n): ");
-                string save = Console.ReadLine();
-                if (save.ToLower() == "y" || save.ToLower() == "yes")
+                string save = Console.ReadLine().ToLower();
+
+                while (save != "y" && save != "n" && save != "yes" && save != "no")
+                {
+                    Console.WriteLine("Sorry that's not an option, please enter 'yes' or 'no' (y/n)");
+                    save = Console.ReadLine().ToLower();
+                }
+                if (save == "y" || save == "yes")
                 {
                     journal.AddEntry(newEntry);
+                    Console.WriteLine("Entry saved");
                 }
+                else if (save == "n" || save == "no")
+                {
+                    Console.WriteLine("Entry discarded");
+                }
+
                 Console.WriteLine();
+                
             }
             else if (choice == "2") //Display
             {
@@ -50,7 +63,7 @@ class Program
                 Console.WriteLine();
             }
             else if (choice == "4") //Save
-            {
+            { 
                 journal.Save();
                 Console.WriteLine();
             }
