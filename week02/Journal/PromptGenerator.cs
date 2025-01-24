@@ -13,11 +13,10 @@ public class PromptGenerator
     {
     }
 
+    private static readonly Random random = new Random();
     public string GetRandomPrompt()
     {
-        Random random = new Random();
         int randomIndex = random.Next(_promptList.Count);
-        string randomPrompt = _promptList[randomIndex];
-        return randomPrompt;
+        return _promptList[randomIndex];
     }
 }
