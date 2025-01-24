@@ -91,7 +91,26 @@ public class Journal
 
     public void Load()
     {
-        Console.WriteLine("I don't know how to Load a journal from a file");
-    }
+        _entries.Clear();
+        Console.WriteLine("Enter file path: ");
+        _filePath = Console.ReadLine();
 
+        if (!System.IO.File.Exists(_filePath) || String.IsNullOrWhiteSpace(_filePath))
+        {
+            Console.WriteLine("The specified file does not exist.");
+            return;
+        }
+
+        string[] lines = System.IO.File.ReadAllLines(_filePath);
+
+        foreach (string line in lines.Skip(1))
+        {
+            string[] parts = line.Split(",");
+
+            Entry newEntry = new Entry();
+            newEntry.CreateNewEntry(DateTime.Parse(parts[0]),parts[1],parts[2]);
+            AddEntry(newEntry); 
+        }
+        Console.WriteLine("Journal loaded successfully!");
+    }
 }
